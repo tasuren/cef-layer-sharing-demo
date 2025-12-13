@@ -1,0 +1,20 @@
+[workspace]
+resolver = "3"
+members = [
+    "crates/cefowldemo-macos-bindings",
+    "crates/cefowldemo-owl",
+    "crates/cefowldemo-bundler",
+    "crates/cefowldemo-helper",
+    "crates/cefowldemo"
+]
+
+[workspace.dependencies]
+winit = "0.30.12"
+cef = "143.0.0"
+serde = "1.0"
+plist = "1.8"
+objc2 = "0.6.3"
+objc2-foundation = { version = "0.3.2", default-features = false }
+objc2-core-foundation = { version = "0.3.2", default-features = false }
+objc2-app-kit = { version = "0.3.2", default-features = false }
+objc2-quartz-core = { version = "0.3.2", default-features = false }

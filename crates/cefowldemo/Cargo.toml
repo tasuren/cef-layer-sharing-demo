@@ -1,0 +1,20 @@
+[package]
+name = "cefowldemo"
+edition = "2024"
+
+[dependencies]
+winit.workspace = true
+
+[target.'cfg(target_os = "macos")'.dependencies]
+cefowldemo-macos-bindings.path = "../cefowldemo-macos-bindings"
+objc2.workspace = true
+objc2-quartz-core = { workspace = true, features = ["objc2-core-foundation"] }
+objc2-core-foundation = { workspace = true, features = ["CFCGTypes"] }
+
+[target.'cfg(target_os = "macos")'.dependencies.objc2-app-kit]
+workspace = true
+features = [
+    "NSResponder",
+    "NSView",
+    "objc2-quartz-core"
+]

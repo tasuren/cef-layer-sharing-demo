@@ -1,0 +1,6 @@
+[package]
+name = "cefowldemo-helper"
+edition = "2024"
+
+[dependencies]
+cef.workspace = true

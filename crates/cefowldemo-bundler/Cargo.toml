@@ -1,0 +1,8 @@
+[package]
+name = "cefowldemo-bundler"
+edition = "2024"
+
+[dependencies]
+cef.workspace = true
+serde = { workspace = true, features = ["derive"] }
+plist.workspace = true
