@@ -82,7 +82,6 @@ fn main() {
         .join("demoapp-cef.app/Contents/MacOS/demoapp-cef");
     let chromium = std::process::Command::new(chromium_app_path)
         .arg(ipc_name)
-        .stdout(std::process::Stdio::piped())
         .spawn()
         .expect("Failed to spawn the chromium application");
     let (ipc, initial_payload) = ipc.accept().expect("Failed to accept the IPC connection");
