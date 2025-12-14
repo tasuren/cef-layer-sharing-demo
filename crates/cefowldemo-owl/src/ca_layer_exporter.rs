@@ -1,6 +1,6 @@
 use std::ffi::c_void;
 
-use cefowldemo_macos_bindings::CALayerHost;
+use cefowldemo_macos_bindings::{CALayerHost, ContextId};
 use objc2::rc::Retained;
 use objc2_app_kit::NSView;
 use objc2_quartz_core::CALayer;
@@ -23,7 +23,7 @@ fn find_ca_layer_host(ca_layer: &CALayer) -> Option<Retained<CALayerHost>> {
     None
 }
 
-pub fn export_ca_layer(window_handle: *mut c_void) {
+pub fn get_ca_context_id(window_handle: *mut c_void) -> Option<ContextId> {
     let ptr = window_handle as *mut NSView;
     let ns_view = unsafe { Retained::retain(ptr).unwrap() };
 
@@ -31,10 +31,5 @@ pub fn export_ca_layer(window_handle: *mut c_void) {
         .layer()
         .expect("There is no `CALayer` on the browser window.");
 
-    if let Some(ca_layer_host) = find_ca_layer_host(ca_layer.as_ref()) {
-        let context_id = ca_layer_host.contextId();
-        println!("contextId: {context_id}");
-    } else {
-        eprintln!("`CALayerHost` is not found.");
-    };
+    find_ca_layer_host(ca_layer.as_ref()).map(|layer| layer.contextId())
 }

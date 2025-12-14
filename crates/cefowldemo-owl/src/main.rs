@@ -1,16 +1,20 @@
 use cef::{args::Args, rc::*, *};
+use cefowldemo_ipc::{ChildProcessIpc, InitialInfo, Payload};
 use std::sync::{Arc, Mutex};
 
+#[cfg(target_os = "macos")]
 mod ca_layer_exporter;
 
 wrap_app! {
     struct DemoApp {
+        ipc: ChildProcessIpc,
         window: Arc<Mutex<Option<Window>>>,
     }
 
     impl App {
         fn browser_process_handler(&self) -> Option<BrowserProcessHandler> {
             Some(DemoBrowserProcessHandler::new(
+                self.ipc.clone(),
                 self.window.clone(),
             ))
         }
@@ -29,6 +33,7 @@ wrap_app! {
 
 wrap_browser_process_handler! {
     struct DemoBrowserProcessHandler {
+        ipc: ChildProcessIpc,
         window: Arc<Mutex<Option<Window>>>,
     }
 
@@ -36,7 +41,7 @@ wrap_browser_process_handler! {
         // The real lifespan of cef starts from `on_context_initialized`, so all the cef objects should be manipulated after that.
         fn on_context_initialized(&self) {
             println!("cef context intiialized");
-            let mut client = DemoClient::new();
+            let mut client = DemoClient::new(self.window.clone(), self.ipc.clone());
             let url = CefString::from("https://www.google.com");
 
             let browser_view = browser_view_create(
@@ -59,7 +64,10 @@ wrap_browser_process_handler! {
 }
 
 wrap_load_handler! {
-    struct DemoLoadHandler;
+    struct DemoLoadHandler {
+        window: Arc<Mutex<Option<Window>>>,
+        ipc: ChildProcessIpc
+    }
 
     impl LoadHandler {
         fn on_load_end(
@@ -68,18 +76,38 @@ wrap_load_handler! {
             _frame: Option<&mut Frame>,
             _http_status_code: std::ffi::c_int
         ) {
-            let browser_host = browser.unwrap().host().unwrap();
-            ca_layer_exporter::export_ca_layer(browser_host.window_handle());
+            let _browser_host = browser.unwrap().host().unwrap();
+            let window = self.window.lock().unwrap();
+            let Some(window) = window.as_ref() else {
+                eprintln!("Window is not set.");
+                return;
+            };
+
+            // Send CAContext ID to parent process.
+            let context_id = ca_layer_exporter::get_ca_context_id(window.window_handle())
+                    .expect("There is no `CALayerHost` on the Chromium window");
+            let bounds = window.bounds();
+
+            let payload = Payload::Initialize(InitialInfo {
+                context_id,
+                window_width: bounds.width,
+                window_height: bounds.height
+            });
+            self.ipc.send(payload).expect("Failed to send CAContext ID");
         }
     }
 }
 
 wrap_client! {
-    struct DemoClient;
+    struct DemoClient {
+        window: Arc<Mutex<Option<Window>>>,
+        ipc: ChildProcessIpc
+
+    }
 
     impl Client {
         fn load_handler(&self) -> Option<LoadHandler> {
-            Some(DemoLoadHandler::new())
+            Some(DemoLoadHandler::new(self.window.clone(), self.ipc.clone()))
         }
     }
 }
@@ -171,8 +199,12 @@ fn main() {
     let is_browser_process = cmd.has_switch(Some(&switch)) != 1;
 
     let window = Arc::new(Mutex::new(None));
-    let mut app = DemoApp::new(window.clone());
 
+    // Connect to the IPC.
+    let ipc_name = std::env::args().next_back().expect("IPC name is not set");
+    let ipc = ChildProcessIpc::connect(ipc_name).expect("Failed to connect to the IPC");
+
+    let mut app = DemoApp::new(ipc, window.clone());
     let ret = execute_process(
         Some(args.as_main_args()),
         Some(&mut app),

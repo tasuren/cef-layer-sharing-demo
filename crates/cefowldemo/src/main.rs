@@ -1,29 +1,31 @@
+use std::path::PathBuf;
+
+use cefowldemo_ipc::{InitialInfo, ParentProcessIpc, Payload, Receiver};
 use winit::{
     application::ApplicationHandler,
+    dpi::LogicalSize,
     event::WindowEvent,
     event_loop::{ActiveEventLoop, ControlFlow, EventLoop},
     window::{Window, WindowId},
 };
 
-#[derive(Default)]
 struct App {
+    _ipc: Receiver,
+    initial_info: InitialInfo,
+    chromium: std::process::Child,
     window: Option<Window>,
 }
 
 impl ApplicationHandler for App {
     fn resumed(&mut self, event_loop: &ActiveEventLoop) {
-        let window = event_loop
-            .create_window(Window::default_attributes())
-            .unwrap();
+        let attributes = Window::default_attributes().with_inner_size(LogicalSize::new(
+            self.initial_info.window_width,
+            self.initial_info.window_height,
+        ));
+        let window = event_loop.create_window(attributes).unwrap();
 
-        #[cfg(target_os = "macos")]
-        {
-            let context_id: u32 = std::env::var("CONTEXT_ID")
-                .expect("Please select `CONTEXT_ID`.")
-                .parse()
-                .expect("`CONTEXT_ID` is not valid.");
-            ca_layer_setup::set_ca_layer_host(context_id, &window);
-        }
+        // Set CALayer of Chromium.
+        ca_layer_setup::set_ca_layer_host(self.initial_info.context_id, &window);
 
         self.window = Some(window);
     }
@@ -32,6 +34,8 @@ impl ApplicationHandler for App {
         match event {
             WindowEvent::CloseRequested => {
                 println!("The close button was pressed; stopping");
+
+                self.chromium.kill().unwrap();
                 event_loop.exit();
             }
             WindowEvent::RedrawRequested => {
@@ -67,7 +71,31 @@ fn main() {
     // input, and uses significantly less power/CPU time than ControlFlow::Poll.
     event_loop.set_control_flow(ControlFlow::Wait);
 
-    let mut app = App::default();
+    // Prepare the IPC.
+    let (ipc, ipc_name) = ParentProcessIpc::new().expect("Faield to create the IPC");
+
+    // Open the chromium application.
+    let chromium_app_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+        .join("../../target/debug")
+        .join("cefowldemo-owl.app/Contents/MacOS/cefowldemo-owl");
+    let chromium = std::process::Command::new(chromium_app_path)
+        .arg(ipc_name)
+        .stdout(std::process::Stdio::piped())
+        .spawn()
+        .expect("Failed to spawn the chromium application");
+    let (ipc, initial_payload) = ipc.accept().expect("Failed to accept the IPC connection");
+
+    let Payload::Initialize(initial_info) = initial_payload else {
+        panic!("Non-initialize payload is given");
+    };
+
+    let mut app = App {
+        _ipc: ipc,
+        initial_info,
+        chromium,
+        window: None,
+    };
+
     event_loop.run_app(&mut app).unwrap();
 }
 
@@ -107,7 +135,7 @@ mod ca_layer_setup {
             .addSublayer(ca_layer_host.downcast_ref().unwrap());
 
         let ca_layer: &CALayer = ca_layer_host.downcast_ref().unwrap();
-        ca_layer.setPosition(CGPoint::new(500., 500.));
+        ca_layer.setPosition(CGPoint::new(0., 0.));
 
         std::mem::forget(ca_layer_host);
     }

@@ -6,12 +6,14 @@ members = [
     "crates/cefowldemo-bundler",
     "crates/cefowldemo-helper",
     "crates/cefowldemo"
-]
+, "crates/cefowldemo-ipc"]
 
 [workspace.dependencies]
 winit = "0.30.12"
 cef = "143.0.0"
+ipc-channel = "0.20.2"
 serde = "1.0"
+anyhow = "1.0"
 plist = "1.8"
 objc2 = "0.6.3"
 objc2-foundation = { version = "0.3.2", default-features = false }

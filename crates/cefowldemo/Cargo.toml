@@ -4,6 +4,7 @@ edition = "2024"
 
 [dependencies]
 winit.workspace = true
+cefowldemo-ipc.path = "../cefowldemo-ipc"
 
 [target.'cfg(target_os = "macos")'.dependencies]
 cefowldemo-macos-bindings.path = "../cefowldemo-macos-bindings"
