@@ -31,7 +31,7 @@ $ cargo run -p demoapp
 
 ## Acknowledge
 
-- ChatGPT Atlas architecture: https://openai.com/en-US/index/building-chatgpt-atlas/
+- ChatGPT Atlas architecture: https://openai.com/index/building-chatgpt-atlas/
 - Explanation of `CALayerHost`: https://teamdev.com/jxbrowser/blog/cross-process-rendering-using-calayer/
 
 ## License
