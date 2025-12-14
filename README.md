@@ -1,22 +1,36 @@
-# **WIP** CEF Demo Using CALayerHost
+# CEF with OWL Architecture Demo
+
+It is the demo to try [ChatGPT Atlas's OWL Architecture](https://openai.com/en-US/index/building-chatgpt-atlas/)
+with CEF on Rust.
+
+The main application uses winit to create the window.
+Then the main application opens the CEF application and display its content via `CALayerHost`.
+
+Currently, it can't receive user interactions on the main application.
 
 ## Demo usage
 
 ```shell
-# Bundle the cef app (crates/cefowldemo-owl).
+# Compile and bundle the CEF application.
 $ cargo run -p cefowldemo-bundler
 
-# Boot the chromium (crates/cefowldemo-owl).
-$ ./target/debug/cefowldemo.app/Contents/MacOS/cefowldemo
-launch browser process
-[1213/221140.967886:WARNING:cef/libcef/common/resource_util.cc:83] Please customize CefSettings.root_cache_path for your application. Use of the default value may lead to unintended process singleton behavior.
-cef context intiialized
-contextId: 2161988284
-[73245:2301251:1213/221143.509976:ERROR:google_apis/gcm/engine/registration_request.cc:292] Registration response error message: QUOTA_EXCEEDED
-
-# Note above "contextId: ..." number, then run the main app (crates/cefowldemo).
-$ CONTEXT_ID=2161988284 cargo run -p cefowldemo
+# Run the main application.
+$ cargo run -p cefowldemo
 ```
+
+## Crates
+
+- `cefowldemo`: Main application
+- `cefowldemo-ipc`: Common IPC wrapper
+- `cefowldemo-macos-bindings`: Exports macOS private API
+- `cefowldemo-owl`: CEF application
+- `cefowldemo-helper`: CEF application helper for macOS CEF bundle
+- `cefowldemo-bundler`: Bundler to create the CEF application bundle.
+
+## Acknowledge
+
+- ChatGPT Atlas architecture: https://openai.com/en-US/index/building-chatgpt-atlas/
+- Explanation of `CALayerHost`: https://teamdev.com/jxbrowser/blog/cross-process-rendering-using-calayer/
 
 ## License
 
