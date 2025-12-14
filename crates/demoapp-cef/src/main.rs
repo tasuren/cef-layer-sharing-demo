@@ -1,6 +1,9 @@
+use std::sync::{Arc, Mutex};
+
 use cef::{args::Args, rc::*, *};
 use demoapp_ipc::{ChildProcessIpc, InitialInfo, Payload};
-use std::sync::{Arc, Mutex};
+use objc2::rc::Retained;
+use objc2_app_kit::NSView;
 
 mod ca_layer_exporter;
 
@@ -83,8 +86,9 @@ wrap_load_handler! {
             };
 
             // Send CAContext ID to parent process.
-            let context_id = ca_layer_exporter::get_ca_context_id(window.window_handle())
-                    .expect("There is no `CALayerHost` on the Chromium window");
+            let ns_view = get_ns_view(window.window_handle());
+            let context_id = ca_layer_exporter::get_ca_context_id(&ns_view)
+                    .expect("There is not `CALayerHost` on the Chromium window");
             let bounds = window.bounds();
 
             let payload = Payload::Initialize(InitialInfo {
@@ -126,6 +130,15 @@ wrap_window_delegate! {
                 let view = self.browser_view.clone();
                 window.add_child_view(Some(&mut (&view).into()));
                 window.show();
+
+                // Hide CEF window to show only the main window.
+                // It seems `CAContext` goes dropped and `CALayerHost` get removed
+                // from the layer tree when we use `window.hide()`,
+                // so we make window transparent as workaround.
+                // It may make the web page always working even the main window is hidden,
+                // thus we should handle visibility of winit window and CEF window in production.
+                let ns_window = get_ns_view(window.window_handle()).window().unwrap();
+                ns_window.setAlphaValue(0.);
             }
         }
 
@@ -238,6 +251,11 @@ fn main() {
     assert!(window.has_one_ref());
 
     shutdown();
+}
+
+pub(crate) fn get_ns_view(window_handle: *mut std::ffi::c_void) -> Retained<NSView> {
+    let ptr = window_handle as *mut NSView;
+    unsafe { Retained::retain(ptr).unwrap() }
 }
 
 mod application {

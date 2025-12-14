@@ -1,5 +1,3 @@
-use std::ffi::c_void;
-
 use demoapp_macos_bindings::{CALayerHost, ContextId};
 use objc2::rc::Retained;
 use objc2_app_kit::NSView;
@@ -23,10 +21,7 @@ fn find_ca_layer_host(ca_layer: &CALayer) -> Option<Retained<CALayerHost>> {
     None
 }
 
-pub fn get_ca_context_id(window_handle: *mut c_void) -> Option<ContextId> {
-    let ptr = window_handle as *mut NSView;
-    let ns_view = unsafe { Retained::retain(ptr).unwrap() };
-
+pub fn get_ca_context_id(ns_view: &NSView) -> Option<ContextId> {
     let ca_layer = ns_view.layer()?;
     find_ca_layer_host(ca_layer.as_ref()).map(|layer| layer.contextId())
 }

@@ -67,10 +67,10 @@ mod mac {
         app_path.join("Contents")
     }
 
-    fn create_app(app_path: &Path, exec_name: &str, bin: &Path, is_helper: bool) -> PathBuf {
+    fn create_app(app_path: &Path, exec_name: &str, bin: &Path) -> PathBuf {
         let app_path = app_path.join(exec_name).with_extension("app");
         let contents_path = create_app_layout(&app_path);
-        create_info_plist(&contents_path, exec_name, is_helper).unwrap();
+        create_info_plist(&contents_path, exec_name).unwrap();
         fs::copy(bin, app_path.join(EXEC_PATH).join(exec_name)).unwrap();
         app_path
     }
@@ -78,12 +78,7 @@ mod mac {
     // See https://bitbucket.org/chromiumembedded/cef/wiki/GeneralUsage.md#markdown-header-macos
     fn bundle(app_path: &Path) {
         let example_path = PathBuf::from(app_path);
-        let main_app_path = create_app(
-            app_path,
-            "demoapp-cef",
-            &example_path.join("demoapp-cef"),
-            false,
-        );
+        let main_app_path = create_app(app_path, "demoapp-cef", &example_path.join("demoapp-cef"));
         let cef_path = cef::sys::get_cef_dir().unwrap();
         let to = main_app_path.join(FRAMEWORKS_PATH).join(FRAMEWORK);
         if to.exists() {
@@ -95,7 +90,6 @@ mod mac {
                 &main_app_path.join(FRAMEWORKS_PATH),
                 helper,
                 &example_path.join("demoapp-helper"),
-                true,
             );
         });
     }
@@ -103,7 +97,6 @@ mod mac {
     fn create_info_plist(
         contents_path: &Path,
         exec_name: &str,
-        is_helper: bool,
     ) -> Result<(), Box<dyn std::error::Error>> {
         let info_plist = InfoPlist {
             cf_bundle_development_region: "en".to_string(),
@@ -122,11 +115,7 @@ mod mac {
                 .collect(),
             ls_file_quarantine_enabled: true,
             ls_minimum_system_version: "11.0".to_string(),
-            ls_ui_element: if is_helper {
-                Some("1".to_string())
-            } else {
-                None
-            },
+            ls_ui_element: Some("1".to_owned()),
             ns_bluetooth_always_usage_description: exec_name.to_string(),
             ns_supports_automatic_graphics_switching: true,
             ns_web_browser_publickey_credential_usage_description: exec_name.to_string(),

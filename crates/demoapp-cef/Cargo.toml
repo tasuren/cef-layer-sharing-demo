@@ -17,5 +17,7 @@ features = [
     "NSApplication",
     "NSResponder",
     "NSView",
+    "NSWindow",
+    "objc2-core-foundation",
     "objc2-quartz-core"
 ]
