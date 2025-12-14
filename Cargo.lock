@@ -285,65 +285,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cefowldemo"
-version = "0.0.0"
-dependencies = [
- "cefowldemo-ipc",
- "cefowldemo-macos-bindings",
- "objc2 0.6.3",
- "objc2-app-kit 0.3.2",
- "objc2-core-foundation",
- "objc2-quartz-core 0.3.2",
- "winit",
-]
-
-[[package]]
-name = "cefowldemo-bundler"
-version = "0.0.0"
-dependencies = [
- "cef",
- "plist",
- "serde",
-]
-
-[[package]]
-name = "cefowldemo-helper"
-version = "0.0.0"
-dependencies = [
- "cef",
-]
-
-[[package]]
-name = "cefowldemo-ipc"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "ipc-channel",
- "serde",
-]
-
-[[package]]
-name = "cefowldemo-macos-bindings"
-version = "0.1.0"
-dependencies = [
- "objc2 0.6.3",
- "objc2-quartz-core 0.3.2",
-]
-
-[[package]]
-name = "cefowldemo-owl"
-version = "0.0.0"
-dependencies = [
- "cef",
- "cefowldemo-ipc",
- "cefowldemo-macos-bindings",
- "objc2 0.6.3",
- "objc2-app-kit 0.3.2",
- "objc2-foundation 0.3.2",
- "objc2-quartz-core 0.3.2",
-]
-
-[[package]]
 name = "cesu8"
 version = "1.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -546,6 +487,65 @@ name = "cursor-icon"
 version = "1.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f27ae1dd37df86211c42e150270f82743308803d90a6f6e6651cd730d5e1732f"
+
+[[package]]
+name = "demoapp"
+version = "0.0.0"
+dependencies = [
+ "demoapp-ipc",
+ "demoapp-macos-bindings",
+ "objc2 0.6.3",
+ "objc2-app-kit 0.3.2",
+ "objc2-core-foundation",
+ "objc2-quartz-core 0.3.2",
+ "winit",
+]
+
+[[package]]
+name = "demoapp-bundler"
+version = "0.0.0"
+dependencies = [
+ "cef",
+ "plist",
+ "serde",
+]
+
+[[package]]
+name = "demoapp-cef"
+version = "0.0.0"
+dependencies = [
+ "cef",
+ "demoapp-ipc",
+ "demoapp-macos-bindings",
+ "objc2 0.6.3",
+ "objc2-app-kit 0.3.2",
+ "objc2-foundation 0.3.2",
+ "objc2-quartz-core 0.3.2",
+]
+
+[[package]]
+name = "demoapp-helper"
+version = "0.0.0"
+dependencies = [
+ "cef",
+]
+
+[[package]]
+name = "demoapp-ipc"
+version = "0.0.0"
+dependencies = [
+ "anyhow",
+ "ipc-channel",
+ "serde",
+]
+
+[[package]]
+name = "demoapp-macos-bindings"
+version = "0.0.0"
+dependencies = [
+ "objc2 0.6.3",
+ "objc2-quartz-core 0.3.2",
+]
 
 [[package]]
 name = "deranged"

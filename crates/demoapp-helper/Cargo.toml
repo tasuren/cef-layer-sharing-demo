@@ -1,5 +1,6 @@
 [package]
-name = "cefowldemo-helper"
+name = "demoapp-helper"
+publish = false
 edition = "2024"
 
 [dependencies]

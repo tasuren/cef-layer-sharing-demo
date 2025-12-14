@@ -1,12 +1,13 @@
 [workspace]
 resolver = "3"
 members = [
-    "crates/cefowldemo-macos-bindings",
-    "crates/cefowldemo-owl",
-    "crates/cefowldemo-bundler",
-    "crates/cefowldemo-helper",
-    "crates/cefowldemo"
-, "crates/cefowldemo-ipc"]
+    "crates/demoapp-macos-bindings",
+    "crates/demoapp-cef",
+    "crates/demoapp-bundler",
+    "crates/demoapp-helper",
+    "crates/demoapp",
+    "crates/demoapp-ipc"
+]
 
 [workspace.dependencies]
 winit = "0.30.12"

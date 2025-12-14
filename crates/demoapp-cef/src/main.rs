@@ -1,8 +1,7 @@
 use cef::{args::Args, rc::*, *};
-use cefowldemo_ipc::{ChildProcessIpc, InitialInfo, Payload};
+use demoapp_ipc::{ChildProcessIpc, InitialInfo, Payload};
 use std::sync::{Arc, Mutex};
 
-#[cfg(target_os = "macos")]
 mod ca_layer_exporter;
 
 wrap_app! {
@@ -241,7 +240,6 @@ fn main() {
     shutdown();
 }
 
-#[cfg(target_os = "macos")]
 mod application {
     use std::cell::Cell;
 

@@ -1,18 +1,17 @@
 [package]
-name = "cefowldemo"
+name = "demoapp"
+publish = false
 edition = "2024"
 
 [dependencies]
+demoapp-ipc.path = "../demoapp-ipc"
+demoapp-macos-bindings.path = "../demoapp-macos-bindings"
 winit.workspace = true
-cefowldemo-ipc.path = "../cefowldemo-ipc"
-
-[target.'cfg(target_os = "macos")'.dependencies]
-cefowldemo-macos-bindings.path = "../cefowldemo-macos-bindings"
 objc2.workspace = true
 objc2-quartz-core = { workspace = true, features = ["objc2-core-foundation"] }
 objc2-core-foundation = { workspace = true, features = ["CFCGTypes"] }
 
-[target.'cfg(target_os = "macos")'.dependencies.objc2-app-kit]
+[dependencies.objc2-app-kit]
 workspace = true
 features = [
     "NSResponder",

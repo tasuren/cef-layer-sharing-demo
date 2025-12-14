@@ -1,18 +1,17 @@
 [package]
-name = "cefowldemo-owl"
+name = "demoapp-cef"
+publish = false
 edition = "2024"
 
 [dependencies]
+demoapp-ipc.path = "../demoapp-ipc"
+demoapp-macos-bindings.path = "../demoapp-macos-bindings"
 cef.workspace = true
-cefowldemo-ipc.path = "../cefowldemo-ipc"
-
-[target.'cfg(target_os = "macos")'.dependencies]
-cefowldemo-macos-bindings.path = "../cefowldemo-macos-bindings"
 objc2.workspace = true
 objc2-foundation = { workspace = true, features = ["NSEnumerator"] }
 objc2-quartz-core = { workspace = true, features = ["CALayer"] }
 
-[target.'cfg(target_os = "macos")'.dependencies.objc2-app-kit]
+[dependencies.objc2-app-kit]
 workspace = true
 features = [
     "NSApplication",

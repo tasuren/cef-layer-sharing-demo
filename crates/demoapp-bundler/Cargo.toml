@@ -1,9 +1,9 @@
 [package]
-name = "cefowldemo-ipc"
-version = "0.1.0"
+name = "demoapp-bundler"
+publish = false
 edition = "2024"
 
 [dependencies]
-ipc-channel.workspace = true
+cef.workspace = true
 serde = { workspace = true, features = ["derive"] }
-anyhow.workspace = true
+plist.workspace = true

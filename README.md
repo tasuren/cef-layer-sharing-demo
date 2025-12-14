@@ -1,10 +1,12 @@
-# CEF with OWL Architecture Demo
+# CEF Layer Sharing Demo
 
-It is the demo to try [ChatGPT Atlas's OWL Architecture](https://openai.com/en-US/index/building-chatgpt-atlas/)
-with CEF on Rust.
+This is a demo for sharing web layer between processes on macOS based on
+[ChatGPT Atlas's OWL Architecture](https://openai.com/en-US/index/building-chatgpt-atlas/)
+with CEF.
 
 The main application uses winit to create the window.
-Then the main application opens the CEF application and display its content via `CALayerHost`.
+Then the main application opens the CEF application as a child process
+and display its content via private API `CALayerHost`.
 
 Currently, it can't receive user interactions on the main application.
 
@@ -12,20 +14,20 @@ Currently, it can't receive user interactions on the main application.
 
 ```shell
 # Compile and bundle the CEF application.
-$ cargo run -p cefowldemo-bundler
+$ cargo run -p demoapp-bundler
 
 # Run the main application.
-$ cargo run -p cefowldemo
+$ cargo run -p demoapp
 ```
 
 ## Crates
 
-- `cefowldemo`: Main application
-- `cefowldemo-ipc`: Common IPC wrapper
-- `cefowldemo-macos-bindings`: Exports macOS private API
-- `cefowldemo-owl`: CEF application
-- `cefowldemo-helper`: CEF application helper for macOS CEF bundle
-- `cefowldemo-bundler`: Bundler to create the CEF application bundle.
+- `demoapp`: Main application
+- `demoapp-bundler`: Bundler to create the CEF application bundle.
+- `demoapp-cef`: CEF application
+- `demoapp-helper`: CEF application helper for macOS CEF bundle
+- `demoapp-ipc`: Common IPC wrapper
+- `demoapp-macos-bindings`: Exports macOS private API
 
 ## Acknowledge
 

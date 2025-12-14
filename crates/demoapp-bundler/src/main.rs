@@ -53,11 +53,11 @@ mod mac {
     const RESOURCES_PATH: &str = "Contents/Resources";
     const FRAMEWORK: &str = "Chromium Embedded Framework.framework";
     const HELPERS: &[&str] = &[
-        "cefowldemo-owl Helper (GPU)",
-        "cefowldemo-owl Helper (Renderer)",
-        "cefowldemo-owl Helper (Plugin)",
-        "cefowldemo-owl Helper (Alerts)",
-        "cefowldemo-owl Helper",
+        "demoapp-cef Helper (GPU)",
+        "demoapp-cef Helper (Renderer)",
+        "demoapp-cef Helper (Plugin)",
+        "demoapp-cef Helper (Alerts)",
+        "demoapp-cef Helper",
     ];
 
     fn create_app_layout(app_path: &Path) -> PathBuf {
@@ -80,8 +80,8 @@ mod mac {
         let example_path = PathBuf::from(app_path);
         let main_app_path = create_app(
             app_path,
-            "cefowldemo-owl",
-            &example_path.join("cefowldemo-owl"),
+            "demoapp-cef",
+            &example_path.join("demoapp-cef"),
             false,
         );
         let cef_path = cef::sys::get_cef_dir().unwrap();
@@ -94,7 +94,7 @@ mod mac {
             create_app(
                 &main_app_path.join(FRAMEWORKS_PATH),
                 helper,
-                &example_path.join("cefowldemo-helper"),
+                &example_path.join("demoapp-helper"),
                 true,
             );
         });
@@ -109,7 +109,7 @@ mod mac {
             cf_bundle_development_region: "en".to_string(),
             cf_bundle_display_name: exec_name.to_string(),
             cf_bundle_executable: exec_name.to_string(),
-            cf_bundle_identifier: "jp.tasuren.cefowldemo-owl".to_string(),
+            cf_bundle_identifier: "jp.tasuren.demoapp-cef".to_string(),
             cf_bundle_info_dictionary_version: "6.0".to_string(),
             cf_bundle_name: exec_name.to_string(),
             cf_bundle_package_type: "APPL".to_string(),
@@ -166,8 +166,8 @@ mod mac {
 
     pub fn main() -> Result<(), Box<dyn std::error::Error>> {
         let app_path = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../../target/debug");
-        run_command(&["build", "-p", "cefowldemo-owl"])?;
-        run_command(&["build", "-p", "cefowldemo-helper"])?;
+        run_command(&["build", "-p", "demoapp-cef"])?;
+        run_command(&["build", "-p", "demoapp-helper"])?;
         bundle(&app_path);
         Ok(())
     }
