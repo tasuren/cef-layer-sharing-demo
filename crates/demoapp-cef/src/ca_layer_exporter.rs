@@ -3,6 +3,7 @@ use objc2::rc::Retained;
 use objc2_app_kit::NSView;
 use objc2_quartz_core::CALayer;
 
+// NOTE: Is there a way to directly obtain a `CALayerHost` in CEF?
 fn find_ca_layer_host(ca_layer: &CALayer) -> Option<Retained<CALayerHost>> {
     let sublayers = unsafe { ca_layer.sublayers() }?;
 
