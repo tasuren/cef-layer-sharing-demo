@@ -1,3 +1,5 @@
+//! This bindings was implemented based on `reference/CALayerHost.h`.
+
 #![allow(non_snake_case)]
 
 use objc2::{
@@ -18,10 +20,6 @@ impl CALayerHost {
         #[unsafe(method(init))]
         #[unsafe(method_family = init)]
         pub fn init(this: Allocated<Self>) -> Retained<Self>;
-
-        #[unsafe(method(new))]
-        #[unsafe(method_family = new)]
-        pub fn new() -> Retained<Self>;
     );
 }
 
