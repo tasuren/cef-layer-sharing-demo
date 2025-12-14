@@ -22,12 +22,12 @@ $ cargo run -p demoapp
 
 ## Crates
 
-- `demoapp`: Main application
-- `demoapp-bundler`: Bundler to create the CEF application bundle.
-- `demoapp-cef`: CEF application
-- `demoapp-helper`: CEF application helper for macOS CEF bundle
+- `demoapp`: **Main process** (winit application)
+- `demoapp-cef`: **Child process** (CEF application)
 - `demoapp-ipc`: Common IPC wrapper
-- `demoapp-macos-bindings`: Exports macOS private API
+- `demoapp-macos-bindings`: Provides macOS private API `CALayerHost`
+- `demoapp-bundler`: Bundler to create the CEF application bundle
+- `demoapp-helper`: CEF application helper for macOS CEF application bundle
 
 ## Acknowledge
 
