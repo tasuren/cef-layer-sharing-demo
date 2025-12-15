@@ -29,7 +29,7 @@ $ cargo run -p demoapp
 - `demoapp-bundler`: Bundler to create the CEF application bundle
 - `demoapp-helper`: CEF application helper for macOS CEF application bundle
 
-## Acknowledge
+## Acknowledgments
 
 - ChatGPT Atlas architecture: https://openai.com/index/building-chatgpt-atlas/
 - Explanation of `CALayerHost`: https://teamdev.com/jxbrowser/blog/cross-process-rendering-using-calayer/
