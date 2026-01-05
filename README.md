@@ -18,12 +18,14 @@ $ cargo run -p demoapp-bundler
 
 # Run the main application.
 $ cargo run -p demoapp-winit # with winit crate
-$ cargo run -p demoapp-gpui  # with GPUI crate
+$ cargo run -p demoapp-wry   # with GPUI crate
+$ cargo run -p demoapp-gpui  # with tao and wry crate
 ```
 
 ## Crates
 
 - `demoapp-winit`: **Main process** (winit window version)
+- `demoapp-wry`: **Main process** (tao window version with wry)
 - `demoapp-gpui`: **Main process** (gpui window version)
 - `demoapp-cef`: **Child process** (CEF application)
 - `demoapp-ipc`: Common IPC wrapper

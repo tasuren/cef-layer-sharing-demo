@@ -7,7 +7,7 @@ members = [
     "crates/demoapp-helper",
     "crates/demoapp-winit",
     "crates/demoapp-ipc",
-    "crates/demoapp-gpui",
+    "crates/demoapp-gpui", "crates/demoapp-wry",
 ]
 
 [workspace.dependencies]
@@ -24,3 +24,5 @@ objc2-app-kit = { version = "0.3.2", default-features = false }
 objc2-quartz-core = { version = "0.3.2", default-features = false }
 gpui = "0.2.2"
 raw-window-handle = "0.6.2"
+tao = "0.34.5"
+wry = "0.53.5"
