@@ -1,16 +1,17 @@
 [package]
-name = "demoapp"
-publish = false
+name = "demoapp-gpui"
+version = "0.1.0"
 edition = "2024"
 
 [dependencies]
 demoapp-ipc.path = "../demoapp-ipc"
 demoapp-macos-bindings.path = "../demoapp-macos-bindings"
-winit.workspace = true
+gpui.workspace = true
+raw-window-handle.workspace = true
 objc2.workspace = true
 objc2-quartz-core = { workspace = true, features = ["objc2-core-foundation"] }
 objc2-core-foundation = { workspace = true, features = ["CFCGTypes"] }
 
 [dependencies.objc2-app-kit]
 workspace = true
-features = ["NSResponder", "NSView", "objc2-quartz-core"]
+features = ["NSResponder", "NSView", "NSGraphics", "objc2-quartz-core"]

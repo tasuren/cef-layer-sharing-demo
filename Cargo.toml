@@ -7,11 +7,11 @@ members = [
     "crates/demoapp-helper",
     "crates/demoapp",
     "crates/demoapp-ipc"
-]
+, "crates/demoapp-gpui"]
 
 [workspace.dependencies]
 winit = "0.30.12"
-cef = "143.0.0"
+cef = "143.6.0"
 ipc-channel = "0.20.2"
 serde = "1.0"
 anyhow = "1.0"
@@ -21,3 +21,5 @@ objc2-foundation = { version = "0.3.2", default-features = false }
 objc2-core-foundation = { version = "0.3.2", default-features = false }
 objc2-app-kit = { version = "0.3.2", default-features = false }
 objc2-quartz-core = { version = "0.3.2", default-features = false }
+gpui = "0.2.2"
+raw-window-handle = "0.6.2"
