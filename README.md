@@ -1,7 +1,7 @@
 # CEF Layer Sharing Demo
 
 This is a demo for sharing web layer between processes on macOS based on
-[ChatGPT Atlas's OWL Architecture](https://openai.com/en-US/index/building-chatgpt-atlas/)
+[ChatGPT Atlas's OWL Architecture](https://openai.com/index/building-chatgpt-atlas/)
 with CEF.
 
 The main application uses winit to create the window.
