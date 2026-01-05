@@ -5,9 +5,10 @@ members = [
     "crates/demoapp-cef",
     "crates/demoapp-bundler",
     "crates/demoapp-helper",
-    "crates/demoapp",
-    "crates/demoapp-ipc"
-, "crates/demoapp-gpui"]
+    "crates/demoapp-winit",
+    "crates/demoapp-ipc",
+    "crates/demoapp-gpui",
+]
 
 [workspace.dependencies]
 winit = "0.30.12"

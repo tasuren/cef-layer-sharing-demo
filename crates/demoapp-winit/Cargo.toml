@@ -1,5 +1,5 @@
 [package]
-name = "demoapp"
+name = "demoapp-winit"
 publish = false
 edition = "2024"
 

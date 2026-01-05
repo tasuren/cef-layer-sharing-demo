@@ -17,12 +17,14 @@ Currently, it can't receive user interactions on the main application.
 $ cargo run -p demoapp-bundler
 
 # Run the main application.
-$ cargo run -p demoapp
+$ cargo run -p demoapp-winit # with winit crate
+$ cargo run -p demoapp-gpui  # with GPUI crate
 ```
 
 ## Crates
 
-- `demoapp`: **Main process** (winit application)
+- `demoapp-winit`: **Main process** (winit window version)
+- `demoapp-gpui`: **Main process** (gpui window version)
 - `demoapp-cef`: **Child process** (CEF application)
 - `demoapp-ipc`: Common IPC wrapper
 - `demoapp-macos-bindings`: Provides macOS private API `CALayerHost`
