@@ -139,6 +139,7 @@ wrap_window_delegate! {
                 // thus we should handle visibility of winit window and CEF window in production.
                 let ns_window = get_ns_view(window.window_handle()).window().unwrap();
                 ns_window.setAlphaValue(0.);
+                ns_window.setIgnoresMouseEvents(true);
             }
         }
 
